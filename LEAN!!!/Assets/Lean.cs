@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
 using Rnd = UnityEngine.Random;
@@ -22,7 +21,7 @@ public class Lean : MonoBehaviour {
    string[] Keywords = { "PURPLE DRANK", "SIZZURP", "PURPLE JELLY", "PURP", "OIL", "SYRUP", "DRANK", "BARRE", "WOK", "TEXAS TEA", "MEMPHIS MUD", "DIRTY SPRITE", "PURPLE OIL", "SLURP", "CODY", "LEAN!!!" };
    string[] Orders = { "R", "ABC", "G", "ACB", "BAC", "H", "CAB", "G", "CBA", "BCA", "ABC", "H", "CBA", "R", "BAC", "U" };
 
-   string[] Sounds = { "baln_lean", "Broke", "Caleb", "JayLean", "melean"};
+   string[] Sounds = { "baln_lean", "Broke", "Caleb", "JayLean", "melean", "depressolean"};
 
    bool[] LeanCap = new bool[4];
 
@@ -90,32 +89,21 @@ public class Lean : MonoBehaviour {
          ButtonsToPress.Add(0);
          ButtonsToPress.Add(5);
          ButtonsToPress.Add(10);
+         return;
       }
-      else if (ButtonOrder == "R") {
+      if (ButtonOrder == "R") {
          Debug.LogFormat("[LEAN!!! #{0}] Press the buttons in Reading Order.", ModuleId);
-         for (int i = 0; i < 16; i++) {
-            ButtonsToPress.Add(i);
-         }
       }
       else if (ButtonOrder == "H") {
          Debug.LogFormat("[LEAN!!! #{0}] Press the buttons in Chinese Reading Order.", ModuleId);
-         for (int i = 3; i >= 0; i--) {
-            for (int j = 0; j < 4; j++) {
-               ButtonsToPress.Add(i + j * 4);
-            }
-         }
       }
       else if (ButtonOrder == "G") {
          Debug.LogFormat("[LEAN!!! #{0}] Press the buttons in Geometric Order.", ModuleId);
-         for (int i = 3; i >= 0; i--) {
-            for (int j = 0; j < 4; j++) {
-               ButtonsToPress.Add(i * 4 + j);
-            }
-         }
       }
       else {
-         Calculation();
+         Debug.LogFormat("[LEAN!!! #{0}] Press the buttons in {1} Order.", ModuleId, ButtonOrder);
       }
+      Calculation();
    }
 
    void Calculation () {
@@ -207,14 +195,69 @@ public class Lean : MonoBehaviour {
       for (int i = 0; i < 3; i++) {
          switch (ButtonOrder[i]) {
             case 'A':
+               Debug.LogFormat("[LEAN!!! #{0}] Press a ({1}).", ModuleId, a + 1);
                ButtonsToPress.Add(a);
                break;
             case 'B':
                ButtonsToPress.Add(b);
+               Debug.LogFormat("[LEAN!!! #{0}] Press b ({1}).", ModuleId, b + 1);
                break;
             case 'C':
+               Debug.LogFormat("[LEAN!!! #{0}] Press c ({1}).", ModuleId, c + 1);
                ButtonsToPress.Add(c);
                break;
+            case 'R':
+               for (int j = 0; j < 16; j++) {
+                  if (a == j) {
+                     Debug.LogFormat("[LEAN!!! #{0}] Press a ({1}).", ModuleId, a + 1);
+                     ButtonsToPress.Add(a);
+                  }
+                  if (b == j) {
+                     Debug.LogFormat("[LEAN!!! #{0}] Press b ({1}).", ModuleId, b + 1);
+                     ButtonsToPress.Add(b);
+                  }
+                  if (c == j) {
+                     Debug.LogFormat("[LEAN!!! #{0}] Press c ({1}).", ModuleId, c + 1);
+                     ButtonsToPress.Add(c);
+                  }
+               }
+               return;
+            case 'G':
+               for (int k = 3; k >= 0; k--) {
+                  for (int j = 0; j < 4; j++) {
+                     if (a == k * 4 + j) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press a ({1}).", ModuleId, a + 1);
+                        ButtonsToPress.Add(a);
+                     }
+                     if (b == k * 4 + j) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press b ({1}).", ModuleId, b + 1);
+                        ButtonsToPress.Add(b);
+                     }
+                     if (c == k * 4 + j) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press c ({1}).", ModuleId, c + 1);
+                        ButtonsToPress.Add(c);
+                     }
+                  }
+               }
+               return;
+            case 'H':
+               for (int k = 3; k >= 0; k--) {
+                  for (int j = 0; j < 4; j++) {
+                     if (a == k + j * 4) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press a ({1}).", ModuleId, a + 1);
+                        ButtonsToPress.Add(a);
+                     }
+                     if (b == k + j * 4) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press b ({1}).", ModuleId, b + 1);
+                        ButtonsToPress.Add(b);
+                     }
+                     if (c == k + j * 4) {
+                        Debug.LogFormat("[LEAN!!! #{0}] Press c ({1}).", ModuleId, c + 1);
+                        ButtonsToPress.Add(c);
+                     }
+                  }
+               }
+               return;
          }
       }
    }
