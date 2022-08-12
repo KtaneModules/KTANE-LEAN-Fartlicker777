@@ -108,7 +108,7 @@ public class Lean : MonoBehaviour {
 
    void Calculation () {
       int a = Bomb.GetSerialNumberNumbers().First();
-      int b = Bomb.GetModuleNames().Count();
+      int b = Bomb.GetModuleNames().Count() % 16;
       int c = Bomb.GetSerialNumberNumbers().Last();
 
       Debug.LogFormat("[LEAN!!! #{0}] A's initial value is {1}, B is {2}, C is {3}.", ModuleId, a, b, c);
